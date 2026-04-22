@@ -1,0 +1,41 @@
+networks:
+  internal_net:
+    driver: bridge
+
+volumes:
+  dedup_data:
+
+services:
+  aggregator:
+    build:
+      context: .
+      dockerfile: DockerFile
+    container_name: aggregator
+    ports:
+      - "8080:8080"
+    environment:
+      - DEDUP_DB_PATH=/app/data/dedup_store.db
+    volumes:
+      - dedup_data:/app/data
+    networks:
+      - internal_net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  publisher:
+    image: python:3.11-slim
+    container_name: publisher
+    depends_on:
+      aggregator:
+        condition: service_healthy
+    networks:
+      - internal_net
+    volumes:
+      - ./scripts:/scripts
+    command: >
+      sh -c "pip install requests --quiet && python /scripts/publisher.py"
+    restart: "no"
