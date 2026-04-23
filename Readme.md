@@ -3,8 +3,15 @@
 Sistem Pub-Sub Log Aggregator dengan Idempotent Consumer dan Deduplication.
 Dibangun dengan Python (FastAPI) + SQLite + Docker.
 
-**Repository**: [UTS-Sister-1187](https://github.com/fienda87/UTS-Sister-1187)
+## Link pdf laporan
+```
+https://drive.google.com/file/d/1Amob99K8cinS9bt3UEJo3xK6MG2ipdjZ/view?usp=drive_link
+```
 
+## Link Youtube
+```
+https://youtu.be/vKIJNaLyk2I
+```
 ## Arsitektur
 
 ```
